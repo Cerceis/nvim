@@ -2,8 +2,14 @@ return{
 	{
 		'windwp/nvim-autopairs',
 		event = "InsertEnter",
-		config = true
-		-- use opts = {} for passing setup options
-		-- this is equivalent to setup({}) function
-	}
+		config = function()
+			local autopairs = require("nvim-autopairs")
+			local Rule = require("nvim-autopairs.rule")
+
+			autopairs.setup()
+
+			-- Add custom rule for angle brackets
+			autopairs.add_rule(Rule("<", ">"))
+		end,
+	},
 }
