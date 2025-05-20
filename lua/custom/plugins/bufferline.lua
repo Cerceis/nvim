@@ -2,10 +2,10 @@ return {
 	'akinsho/bufferline.nvim',
 	version = "*", 
 	dependencies = {'nvim-tree/nvim-web-devicons'},
-	},
 	config = function()
 		require("bufferline").setup({
 			options = {
+				number = "buffer_id",
 				mode = "buffers", -- shows buffers like VSCode tabs
 				separator_style = "slant", -- "slant", "thick", "thin", "padded_slant"
 				show_buffer_icons = true,
