@@ -63,6 +63,9 @@ vim.o.splitbelow = true
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+-- Enable termguicolors: Some plugins need this to work
+vim.opt.termguicolors = true
+
 -- Set indent to 4 spaces
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
