@@ -85,6 +85,7 @@ vim.o.confirm = true
 --  See `:help vim.keymap.set()`
 
 -- Custom keymapping by chiyori
+vim.keymap.set('n', '<leader>b', ':Telescope buffers<CR>', { desc = 'Toggle telescope buffer list' })
 vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle NeoTree' })
 vim.keymap.set('i', '<D-Left>', '<C-o>b')
 vim.keymap.set('i', '<D-Right>', '<C-o>w')
@@ -128,6 +129,13 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
+
+-- Auto show error messages
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, { focus = false })
+  end,
+})
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -609,66 +617,6 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         --
-        -- Vue 3        
-        volar = {
-          init_options = {
-            vue = {
-              hybridMode = false,
-            },
-          },
-          settings = {
-            typescript = {
-              inlayHints = {
-                enumMemberValues = {
-                  enabled = true,
-                },
-                functionLikeReturnTypes = {
-                  enabled = true,
-                },
-                propertyDeclarationTypes = {
-                  enabled = true,
-                },
-                parameterTypes = {
-                  enabled = true,
-                  suppressWhenArgumentMatchesName = true,
-                },
-                variableTypes = {
-                  enabled = true,
-                },
-              },
-            },
-          },
-        },
-        -- TypeScript
-        ts_ls = {
-          init_options = {
-            plugins = {
-              {
-                name = '@vue/typescript-plugin',
-                location = os.getenv("HOME") .. "/Users/chiyori/.nvm/versions/node/v22.14.0/lib/node_modules/@vue/typescript-plugin",
-                languages = { 'vue' },
-              },
-            },
-          },
-          settings = {
-            typescript = {
-              tsserver = {
-                useSyntaxServer = false,
-              },
-              inlayHints = {
-                includeInlayParameterNameHints = 'all',
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-              },
-            },
-          },
-        },
-
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
