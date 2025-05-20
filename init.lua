@@ -66,6 +66,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 -- Enable termguicolors: Some plugins need this to work
 vim.opt.termguicolors = true
 
+
 -- Set indent to 4 spaces
 vim.opt.expandtab = false 
 vim.opt.shiftwidth = 4
@@ -829,6 +830,22 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
+    config = function(opts)
+      require("nvim-treesitter.configs").setup(opts)
+      -- Set folding method
+      vim.opt.foldmethod = "expr"
+      vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+      vim.opt.foldlevel = 99
+      vim.opt.foldtext = "v:lua.MyFoldText()"
+
+      -- My custom folding text 
+      function _G.MyFoldText()
+        local line = vim.fn.getline(vim.v.foldstart)
+        local lines = vim.v.foldend - vim.v.foldstart + 1
+        return "🌸 " .. line .. " +" .. lines .. ")"
+      end
+
+    end,
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
@@ -864,26 +881,26 @@ require('lazy').setup({
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
 }, {
-    ui = {
-      -- If you are using a Nerd Font: set icons to an empty table which will use the
-      -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-      icons = vim.g.have_nerd_font and {} or {
-        cmd = '⌘',
-        config = '🛠',
-        event = '📅',
-        ft = '📂',
-        init = '⚙',
-        keys = '🗝',
-        plugin = '🔌',
-        runtime = '💻',
-        require = '🌙',
-        source = '📄',
-        start = '🚀',
-        task = '📌',
-        lazy = '💤 ',
-      },
+  ui = {
+    -- If you are using a Nerd Font: set icons to an empty table which will use the
+    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+    icons = vim.g.have_nerd_font and {} or {
+      cmd = '⌘',
+      config = '🛠',
+      event = '📅',
+      ft = '📂',
+      init = '⚙',
+      keys = '🗝',
+      plugin = '🔌',
+      runtime = '💻',
+      require = '🌙',
+      source = '📄',
+      start = '🚀',
+      task = '📌',
+      lazy = '💤 ',
     },
-  })
+  },
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
