@@ -20,5 +20,14 @@ return {
 			},
 		})
 
+		-- Set up Rust
+		lspconfig.rust_analyzer.setup({
+			settings = {
+				["rust-analyzer"] = {
+					cargo = { allFeatures = true },
+					checkOnSave = true
+				},
+			},
+		})
 	end,
 }
