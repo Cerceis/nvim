@@ -11,12 +11,21 @@ return {
 		local mason_registry = require("mason-registry")
 
 		-- Set up Volar
+		-- Make sure you have these npm installed globally: 
+		-- 1) @vue/language-server
+		-- 2) typescript-language-server
+		-- 3) typescript
+		-- 
+		-- and tsdk config below set correctly to your global typescript/lib
 		lspconfig.volar.setup({
 			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
 			init_options = {
 				vue = {
 					hybridMode = false,
 				},
+				typescript = {
+					tsdk = "/Users/chiyori/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib"
+				}
 			},
 		})
 
