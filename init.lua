@@ -3,6 +3,11 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- netrw is the default file explorer nvim uses
+-- The following options set to 1 disables it on launch
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -65,7 +70,6 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Enable termguicolors: Some plugins need this to work
 vim.opt.termguicolors = true
-
 
 -- Set indent to 4 spaces
 vim.opt.expandtab = false 
