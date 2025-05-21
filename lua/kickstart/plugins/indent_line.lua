@@ -6,8 +6,12 @@ return {
 		config = function()
 			require("ibl").setup {
 				indent = {
+					highlight = "PastelPink",
 					char = "♡",
 					tab_char = "♡",
+				},
+				scope = {
+					highlight = "Lilac"
 				}
 			}
 		end,

@@ -25,7 +25,7 @@ return {
     -- Set it as the first section
     dashboard.section.header.val = cute_art
     dashboard.section.header.opts.position = "center"
-    dashboard.section.header.opts.hl = "NvimIdentifier" 
+    dashboard.section.header.opts.hl = "BabyBlue" 
 	
     -- Setup
     alpha.setup(dashboard.config)
