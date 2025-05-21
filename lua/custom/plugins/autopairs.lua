@@ -9,7 +9,7 @@ return{
 			autopairs.setup()
 
 			-- Add custom rule for angle brackets
-			autopairs.add_rule(Rule("<", ">"))
+			-- autopairs.add_rule(Rule("<", ">"))
 		end,
 	},
 }
