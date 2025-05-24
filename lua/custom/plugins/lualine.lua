@@ -49,6 +49,29 @@ return{
 
 			return emoji .. " " .. time_str
 		end
+	
+		local function battery_status()
+			local handle = io.popen("acpi -b 2>/dev/null")
+			if not handle then return "[♡] N/A" end
+			local result = handle:read("*a")
+			handle:close()
+			if not result or result == "" then return "[♡] N/A" end
+
+			local percentage = tonumber(result:match("(%d?%d?%d)%%"))
+			local charging = result:match("Charging")
+
+			if not percentage then return "[♡] N/A" end
+
+			local total_hearts = 5
+			local filled_hearts = math.floor(percentage / 100 * total_hearts)
+			local empty_hearts = total_hearts - filled_hearts
+
+			local bar = "[" .. string.rep("♥", filled_hearts) .. string.rep("♡", empty_hearts) .. "]"
+
+			local status_icon = charging and "+" or "-"
+
+			return string.format("%s%s%d%%%%", bar, status_icon, percentage)
+		end
 
 		require('lualine').setup {
 			options = {
@@ -81,6 +104,7 @@ return{
 					relative_path_from_root
 				},
 				lualine_x = {
+					battery_status,
 					dynamic_time,
 					'encoding',
 					'fileformat',
@@ -101,6 +125,7 @@ return{
 					relative_path_from_root
 				},
 				lualine_x = {
+					battery_status,
 					dynamic_time
 				},
 				lualine_y = {},
