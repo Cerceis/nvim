@@ -52,21 +52,21 @@ return{
 	
 		local function battery_status()
 			local handle = io.popen("acpi -b 2>/dev/null")
-			if not handle then return "[♡] N/A" end
+			if not handle then return "[🤍] N/A" end
 			local result = handle:read("*a")
 			handle:close()
-			if not result or result == "" then return "[♡] N/A" end
+			if not result or result == "" then return "[🤍] N/A" end
 
 			local percentage = tonumber(result:match("(%d?%d?%d)%%"))
 			local charging = result:match("Charging")
 
-			if not percentage then return "[♡] N/A" end
+			if not percentage then return "[🤍] N/A" end
 
 			local total_hearts = 5
 			local filled_hearts = math.floor(percentage / 100 * total_hearts)
 			local empty_hearts = total_hearts - filled_hearts
 
-			local bar = "[" .. string.rep("♥", filled_hearts) .. string.rep("♡", empty_hearts) .. "]"
+			local bar = "[" .. string.rep("🩷", filled_hearts) .. string.rep("🤍", empty_hearts) .. "]"
 
 			local status_icon = charging and "+" or "-"
 
