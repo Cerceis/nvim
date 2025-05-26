@@ -20,6 +20,8 @@ return {
 			"  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠤⠤⠴⣄⡸⠤⣄⠴⠤⠴⠄⠼⠀⠀⠀⠀⠀⠀⠀⠀  ",
 			"                                  ",
 			"<頑張るあなたに、ハグ！(っ´▽｀)っ>",
+			"                                  ",
+			"<Everything is going to be 大丈夫>"
 		}
 
 		local function read_memo(path)
