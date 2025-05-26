@@ -14,7 +14,7 @@ return{
 				[''] = '🎀 V-BLOCK',
 				c = '🐻 c:くまですが、なにか？'
 			}
-			return icons[mode] or '💖 ' .. mode
+			return icons[mode] or ('💖 ' .. mode)
 		end
 	
 		-- A custom function that returns file path relative to project root
@@ -50,15 +50,34 @@ return{
 			return emoji .. " " .. time_str
 		end
 	
+
 		local function battery_status()
-			local handle = io.popen("acpi -b 2>/dev/null")
+			-- Detect OS
+			local is_mac = vim.fn.has("macunix") == 1
+
+			-- Pick the command based on OS
+			local cmd = is_mac and "pmset -g batt" or "acpi -b 2>/dev/null"
+
+			local handle = io.popen(cmd)
 			if not handle then return "[🤍] N/A" end
 			local result = handle:read("*a")
 			handle:close()
 			if not result or result == "" then return "[🤍] N/A" end
 
-			local percentage = tonumber(result:match("(%d?%d?%d)%%"))
-			local charging = result:match("Charging")
+			local percentage, charging
+
+			if is_mac then
+				-- Example mac output:
+				-- Now drawing from 'Battery Power'
+				--  -InternalBattery-0 (id=1234567)    89%; discharging; (no estimate) present: true
+				percentage = tonumber(result:match("(%d?%d?%d)%%"))
+				charging = result:match("charging") or result:match("AC Power")
+			else
+				-- Example linux output (acpi):
+				-- Battery 0: Discharging, 89%, 01:45:12 remaining
+				percentage = tonumber(result:match("(%d?%d?%d)%%"))
+				charging = result:match("Charging")
+			end
 
 			if not percentage then return "[🤍] N/A" end
 
@@ -70,7 +89,7 @@ return{
 
 			local status_icon = charging and "+" or "-"
 
-			return string.format("%s%s%d%%%%", bar, status_icon, percentage)
+			return string.format("%s%s%d%%%%⚡", bar, status_icon, percentage)
 		end
 
 		require('lualine').setup {
@@ -138,5 +157,5 @@ return{
 			inactive_winbar = {},
 			extensions = {}
 		}
-	end,
-}
+		end,
+	}
