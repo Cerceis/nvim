@@ -31,62 +31,77 @@ return {
 				for line in f:lines() do
 					table.insert(lines, line)
 				end
+				f:close()
 			else
-				table.insert(lines, "(No memo found)")
+				table.insert(lines, "404 no memo 0A0")
 			end
 			return lines
 		end
 
-		local memo_lines = read_memo(memo_path)
 
-		-- Set it as the first section
-		dashboard.section.header.val = cute_art
-		dashboard.section.header.opts.position = "center"
-		dashboard.section.header.opts.hl = "BabyBlue"
-
-		-- Add memo section
-		dashboard.section.memo = {
-			type = "text",
-			val = memo_lines,
-			opts = {
-				position = "center",
-				hl = "Comment"
-			},
-		}
-
---		dashboard.section.buttons.val = {
---			dashboard.button("q", "BYE BYE!", ":qa<CR>")
---		}
-
-		dashboard.section.menu = {
-			type = "text",
-			val = "| [<leader>e] Tree | [<leader>sf] 検索 |",
-			opts = {
-				position = "center",
+		local function update_memo()
+			-- Add memo section
+			dashboard.section.memo = {
+				type = "text",
+				val = read_memo(memo_path),
+				opts = {
+					position = "center",
+					hl = "Comment"
+				},
 			}
-		}
+		end
 
-		dashboard.section.section_border = {
-			type = "text",
-			val = "─·✦·─·✧·─·✦·─·✧·─·✦·─·✧·─·✦─·(｡・ω・｡)·─✧·─·✦·─·✧·─·✦·─·✧·─·✦·─·✧·─·✦·─",
-			opts = {
-				position = "center",
-				hl = "PastelPink"
-			}
-		}
+		local function get_dashboard_config()
+			-- Set it as the first section
+			dashboard.section.header.val = cute_art
+			dashboard.section.header.opts.position = "center"
+			dashboard.section.header.opts.hl = "BabyBlue"
 
-		dashboard.config.layout = {
-			{ type = "padding", val = 1 },
-			dashboard.section.header,
-			{ type = "padding", val = 1 },
-			dashboard.section.menu,
-			{ type = "padding", val = 1 },
-			dashboard.section.section_border,
-			{ type = "padding", val = 1 },
-			dashboard.section.memo,
-		}
 
-		-- Setup
-		alpha.setup(dashboard.config)
-	end,
-}
+		--		dashboard.section.buttons.val = {
+		--			dashboard.button("q", "BYE BYE!", ":qa<CR>")
+		--		}
+
+				dashboard.section.menu = {
+					type = "text",
+					val = "| [<leader>e] Tree | [<leader>sf] 検索 |",
+					opts = {
+						position = "center",
+					}
+				}
+
+				dashboard.section.section_border = {
+					type = "text",
+					val = "─·✦·─·✧·─·✦·─·✧·─·✦·─·✧·─·✦─·(｡・ω・｡)·─✧·─·✦·─·✧·─·✦·─·✧·─·✦·─·✧·─·✦·─",
+					opts = {
+						position = "center",
+						hl = "PastelPink"
+					}
+				}
+
+				dashboard.config.layout = {
+					{ type = "padding", val = 1 },
+					dashboard.section.header,
+					{ type = "padding", val = 1 },
+					dashboard.section.menu,
+					{ type = "padding", val = 1 },
+					dashboard.section.section_border,
+					{ type = "padding", val = 1 },
+					dashboard.section.memo,
+				}
+
+				return dashboard.config
+			end
+
+			-- Setup
+			update_memo()
+			alpha.setup(get_dashboard_config())
+
+			vim.api.nvim_create_user_command("AlphaReloadMemo", function()
+				update_memo()
+				alpha.setup(get_dashboard_config())
+				vim.cmd("Alpha")
+			end, {})
+
+		end,
+	}

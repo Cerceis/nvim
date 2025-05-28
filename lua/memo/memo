@@ -1,17 +1,19 @@
 ╭─·✦·─·✧·─·✦·─·✧·─·✦·─·✧    一般
 - 来週まで資料作成（サニーマー向け）
-
-
+- Cluster Recommendation (Vector)
+- 反応率
+- KPI Chasing
+- 生産性低いところを特定する
+- 気づき
+- 構想
 
 ╭─·✦·─·✧·─·✦·─·✧·─·✦·─·    Peach Sorbet
-- E0 implementation
-
-
+- [DONE] Genetic algorithm implementation 
+- [DONE] E0 implementation
 
 ╭─·✦·─·✧·─·✦·─·✧·─·✦·─·    Caramel Quartz
-- Android 資産登録
-- Paypay finalizing pay function 
-- Layout change, smaller
-- Layout change, refer to Wolt
-- 追加 extra countries
-- Password reset
+
+
+
+
+
