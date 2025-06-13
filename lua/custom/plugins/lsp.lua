@@ -43,5 +43,7 @@ return {
 		})
 
 		lspconfig.lua_ls.setup({})
+
+		lspconfig.json_ls.setup({})
 	end,
 }
