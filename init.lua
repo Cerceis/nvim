@@ -72,7 +72,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.termguicolors = true
 
 -- Set indent to 4 spaces
-vim.opt.expandtab = false 
+vim.opt.expandtab = false
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -99,6 +99,7 @@ vim.keymap.set('n', '<leader>b', ':Telescope buffers<CR>', { desc = 'Toggle tele
 vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle NeoTree' })
 vim.keymap.set('i', '<D-Left>', '<C-o>b')
 vim.keymap.set('i', '<D-Right>', '<C-o>w')
+
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -417,6 +418,9 @@ require('lazy').setup({
                         hidden = true,
                       }
                     end, { desc = '[S]earch [N]eovim files' })
+
+                    -- By chiyori
+                    vim.keymap.set('n', 'grd', require('telescope.builtin').lsp_definitions, { desc = '[G]oto [D]efinition' })
                   end,
                 },
 
@@ -835,9 +839,9 @@ require('lazy').setup({
                       main = 'nvim-treesitter.configs', -- Sets main module to use for opts
                       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
                       opts = {
-                        ensure_installed = { 
+                        ensure_installed = {
                           'bash', 'c', 'diff', 'html', 'lua',
-                          'luadoc', 'markdown', 'markdown_inline', 
+                          'luadoc', 'markdown', 'markdown_inline',
                           'query', 'vim', 'vimdoc',
                           'javascript', 'vue', 'typescript', 'css', 'json',
                           'tsx', 'yaml', 'rust'
@@ -852,6 +856,12 @@ require('lazy').setup({
                           additional_vim_regex_highlighting = { 'ruby' },
                         },
                         indent = { enable = true, disable = { 'ruby' } },
+                        playground = {
+                          enable = true,
+                          disable = {},
+                          updatetime = 25,
+                          persist_queries = false,
+                        }
                       },
                       config = function(opts)
                         require("nvim-treesitter.configs").setup(opts)
