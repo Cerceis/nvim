@@ -2,8 +2,8 @@
 
 ## The ultimate chiyori's nvim spell book!
 
-Some of these are not native to nvim
-Some of these are configured by kickstart
+Some of these are not native to nvim. 
+Some of these are configured by kickstart. 
 
 ### Insert:
 - i : Insert at start of char
@@ -56,7 +56,7 @@ Also works with number in front
 - redo : Ctrl+r
 
 ### Selection:
-- v : Toggle visual selector mode 
+- v : Toggle visual selector mode.
 
 3-part selection commands  
 v = Select, c = Change, d = Delete/Cut  
@@ -100,10 +100,19 @@ examples:
 - J : Take the next line and merge into current line (SUCK A LINE UP)
 - =G : Auto indent everything below.
 
+### Folding:
+- zc: Fold on cursor.
+- zo: Open fold on cursor.
+- za: Toggle fold on cursor.
+- zM: Close all.
+- zR: Open all.
+
 ### Multi line operation:
 - Ctrl+v, I, insert, esc : Insert text on multiple line
 
 ### Marking : 
+0~9, A~Z are gobal marking that exist on the entire project. 
+a~z are local marking that only exist on current buffer.
 - m[a-z] : Set mark to current line.
 - '[a-z] : Jump to mark [a-z].
 - delm! | delm A-Z : Delete all marks.

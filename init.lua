@@ -99,7 +99,7 @@ vim.keymap.set('n', '<leader>b', ':Telescope buffers<CR>', { desc = 'Toggle tele
 vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle NeoTree' })
 vim.keymap.set('i', '<D-Left>', '<C-o>b')
 vim.keymap.set('i', '<D-Right>', '<C-o>w')
-
+vim.keymap.set('n', 'grb', '<C-o>', { noremap = true , silent = true })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -140,6 +140,32 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
+--
+-- Chiyori user command
+vim.api.nvim_create_user_command("Resize", function(opts)
+  local args = opts.fargs
+  if #args ~= 3 then
+    print("Usage: :Resize <input> <WxH> <output>")
+    return
+  end
+
+  local input = args[1]
+  local size = args[2]
+  local output = args[3]
+
+  local cmd = string.format("magick %s -resize %s %s", vim.fn.shellescape(input), vim.fn.shellescape(size), vim.fn.shellescape(output))
+  local result = os.execute(cmd)
+
+  if result == 0 then
+    print("Image resized successfully!")
+  else
+    print("Failed to resize image.")
+  end
+end, {
+  nargs = "*",
+  complete = "file",
+  desc = "Resize image using ImageMagick",
+})
 
 -- Auto show error messages
 vim.api.nvim_create_autocmd("CursorHold", {
@@ -866,10 +892,14 @@ require('lazy').setup({
                       config = function(opts)
                         require("nvim-treesitter.configs").setup(opts)
                         -- Set folding method
-                        vim.opt.foldmethod = "expr"
-                        vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-                        vim.opt.foldlevel = 99
-                        vim.opt.foldtext = "v:lua.MyFoldText()"
+                        if require("nvim-treesitter.parsers").has_parser() then
+                          vim.opt.foldmethod = "expr"
+                          vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+                          vim.opt.foldlevel = 99
+                          vim.opt.foldtext = "v:lua.MyFoldText()"
+                        else
+                          vim.opt.foldmethod = "syntax"
+                        end
 
                         -- My custom folding text 
                         function _G.MyFoldText()
