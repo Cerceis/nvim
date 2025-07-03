@@ -714,7 +714,13 @@ require('lazy').setup({
                     local ensure_installed = vim.tbl_keys(servers or {})
                     vim.list_extend(ensure_installed, {
                       'stylua', -- Used to format Lua code
-                      'jsonls',
+                      'json-lsp',
+                      'yaml-language-server',
+                      'html-lsp',
+                      'json-lsp',
+                      'lua-language-server',
+                      'rust-analyzer',
+                      'vue-language-server'
                     })
                     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
                     require('mason-lspconfig').setup({
@@ -909,8 +915,6 @@ require('lazy').setup({
                           vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
                           vim.opt.foldlevel = 99
                           vim.opt.foldtext = "v:lua.MyFoldText()"
-                        else
-                          vim.opt.foldmethod = "syntax"
                         end
 
                         -- My custom folding text 
