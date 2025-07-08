@@ -910,12 +910,10 @@ require('lazy').setup({
                       config = function(opts)
                         require("nvim-treesitter.configs").setup(opts)
                         -- Set folding method
-                        if require("nvim-treesitter.parsers").has_parser() then
-                          vim.opt.foldmethod = "expr"
-                          vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-                          vim.opt.foldlevel = 99
-                          vim.opt.foldtext = "v:lua.MyFoldText()"
-                        end
+                        vim.opt.foldmethod = "expr"
+                        vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+                        vim.opt.foldlevel = 99
+                        vim.opt.foldtext = "v:lua.MyFoldText()"
 
                         -- My custom folding text 
                         function _G.MyFoldText()
