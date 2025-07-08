@@ -1,3 +1,4 @@
+local format_html_tag = require("custom.scripts.format-html-tag");
 -- Set <space> as the leader key
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
@@ -100,6 +101,17 @@ vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle NeoTree
 vim.keymap.set('i', '<D-Left>', '<C-o>b')
 vim.keymap.set('i', '<D-Right>', '<C-o>w')
 vim.keymap.set('n', 'grb', '<C-o>', { noremap = true , silent = true })
+
+vim.api.nvim_create_user_command("HtmlFormatTag", function()
+    format_html_tag.split_html_attributes()
+end, {})
+vim.keymap.set("n", "<leader>ft", ":HtmlFormatTag<CR>", { desc = "Split HTML tag attributes" })
+
+vim.api.nvim_create_user_command("HtmlFormatStartTag", function()
+    format_html_tag.split_html_opening_only()
+end, {})
+vim.keymap.set("n", "<leader>fo", ":HtmlFormatStartTag<CR>", { desc = "Split HTML opening tag attributes" })
+
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -702,7 +714,13 @@ require('lazy').setup({
                     local ensure_installed = vim.tbl_keys(servers or {})
                     vim.list_extend(ensure_installed, {
                       'stylua', -- Used to format Lua code
-                      'jsonls',
+                      'json-lsp',
+                      'yaml-language-server',
+                      'html-lsp',
+                      'json-lsp',
+                      'lua-language-server',
+                      'rust-analyzer',
+                      'vue-language-server'
                     })
                     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
                     require('mason-lspconfig').setup({

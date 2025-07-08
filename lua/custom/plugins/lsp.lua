@@ -44,6 +44,16 @@ return {
 
 		lspconfig.lua_ls.setup({})
 
-		lspconfig.json_ls.setup({})
+		lspconfig.jsonls.setup({})
+		
+		lspconfig.yamlls.setup({
+			settings = {
+				yaml = {
+					schemas = require("schemastore").yaml.schemas(),
+					validate = true,
+				}
+			}
+		})
+
 	end,
 }

@@ -138,6 +138,11 @@ a~z are local marking that only exist on current buffer.
 - K: Trigger tooltip
 - :MarkdownPreview: Live preview mark down. 
 
+### Conversion
+Select any word (like using visual selector), then  
+- u : Convert all word into lower case
+- U : Convert all word into upper case
+
 ### Neo-tree:
 - a : Create file or directory
 - d : Delete file or directory
