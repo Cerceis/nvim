@@ -25,9 +25,9 @@ return {
 				},
 				typescript = {
 					-- chiyori-T14
-					tsdk = "/home/chiyori/.nvm/versions/node/v22.15.1/lib/node_modules/typescript/lib"
+					-- tsdk = "/home/chiyori/.nvm/versions/node/v22.15.1/lib/node_modules/typescript/lib"
 					-- chiyori-M4PRO
-					-- tsdk = "/Users/chiyori/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib"
+					tsdk = "/Users/chiyori/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib"
 				}
 			},
 		})
