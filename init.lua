@@ -1,5 +1,4 @@
 local format_html_tag = require("custom.scripts.format-html-tag");
-
 -- Set <space> as the leader key
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
@@ -93,9 +92,14 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- [[ Basic Keymaps ]]
+--  See `:help vim.keymap.set()`
+
 -- Custom keymapping by chiyori
 
 -- Telescope Related
+vim.keymap.set('n', '<leader>b', ':Telescope buffers<CR>', { desc = 'Toggle telescope buffer list' })
+vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle NeoTree' })
 vim.keymap.set('n', '<leader>st', ':TodoTelescope<CR>', { desc = '[S]earch [T]ODOs' })
 
 -- Indent
@@ -106,6 +110,7 @@ vim.keymap.set('n', 'grb', '<C-o>', { noremap = true , silent = true })
 -- Oil File browser
 vim.keymap.set("n", "<leader>o", "<CMD>Oil<CR>", { desc = "Open Oil file browser" })
 
+
 vim.api.nvim_create_user_command("HtmlFormatTag", function()
     format_html_tag.split_html_attributes()
 end, {})
@@ -115,6 +120,7 @@ vim.api.nvim_create_user_command("HtmlFormatStartTag", function()
     format_html_tag.split_html_opening_only()
 end, {})
 vim.keymap.set("n", "<leader>fo", ":HtmlFormatStartTag<CR>", { desc = "Split HTML opening tag attributes" })
+
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
