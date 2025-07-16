@@ -93,6 +93,9 @@ examples:
 - <leader>sl : Telescope item look up
 - <leader>sf : Telescope search file
 - <leader>sg : Telescope search global (fuzzy)
+- <leader>sw : Telescope search word 
+- <leader>sd : Telescope search diagnostic
+- <leader>st : Telescope search TODOs etc
 
 ### Indentation:
 - Tab : Right Indent
@@ -137,6 +140,7 @@ a~z are local marking that only exist on current buffer.
 - :!live-server . : To open live server
 - K: Trigger tooltip
 - :MarkdownPreview: Live preview mark down. 
+- <leader>o : Open Oil file browser
 
 ### Conversion
 Select any word (like using visual selector), then  

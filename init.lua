@@ -1,4 +1,5 @@
 local format_html_tag = require("custom.scripts.format-html-tag");
+
 -- Set <space> as the leader key
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
@@ -92,15 +93,18 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
-
 -- Custom keymapping by chiyori
-vim.keymap.set('n', '<leader>b', ':Telescope buffers<CR>', { desc = 'Toggle telescope buffer list' })
-vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle NeoTree' })
+
+-- Telescope Related
+vim.keymap.set('n', '<leader>st', ':TodoTelescope<CR>', { desc = '[S]earch [T]ODOs' })
+
+-- Indent
 vim.keymap.set('i', '<D-Left>', '<C-o>b')
 vim.keymap.set('i', '<D-Right>', '<C-o>w')
 vim.keymap.set('n', 'grb', '<C-o>', { noremap = true , silent = true })
+
+-- Oil File browser
+vim.keymap.set("n", "<leader>o", "<CMD>Oil<CR>", { desc = "Open Oil file browser" })
 
 vim.api.nvim_create_user_command("HtmlFormatTag", function()
     format_html_tag.split_html_attributes()
@@ -111,7 +115,6 @@ vim.api.nvim_create_user_command("HtmlFormatStartTag", function()
     format_html_tag.split_html_opening_only()
 end, {})
 vim.keymap.set("n", "<leader>fo", ":HtmlFormatStartTag<CR>", { desc = "Split HTML opening tag attributes" })
-
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -892,6 +895,9 @@ require('lazy').setup({
                         },
                         -- Autoinstall languages that are not installed
                         auto_install = true,
+                        fold = {
+                          enable = true
+                        },
                         highlight = {
                           enable = true,
                           -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
@@ -910,12 +916,10 @@ require('lazy').setup({
                       config = function(opts)
                         require("nvim-treesitter.configs").setup(opts)
                         -- Set folding method
-                        if require("nvim-treesitter.parsers").has_parser() then
-                          vim.opt.foldmethod = "expr"
-                          vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-                          vim.opt.foldlevel = 99
-                          vim.opt.foldtext = "v:lua.MyFoldText()"
-                        end
+                        vim.opt.foldmethod = "expr"
+                        vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+                        vim.opt.foldlevel = 99
+                        vim.opt.foldtext = "v:lua.MyFoldText()"
 
                         -- My custom folding text 
                         function _G.MyFoldText()
