@@ -1,4 +1,5 @@
 local format_html_tag = require("custom.scripts.format-html-tag");
+
 -- Set <space> as the leader key
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
@@ -109,7 +110,6 @@ vim.keymap.set('n', 'grb', '<C-o>', { noremap = true , silent = true })
 
 -- Oil File browser
 vim.keymap.set("n", "<leader>o", "<CMD>Oil<CR>", { desc = "Open Oil file browser" })
-
 
 vim.api.nvim_create_user_command("HtmlFormatTag", function()
     format_html_tag.split_html_attributes()
