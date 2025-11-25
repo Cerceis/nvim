@@ -1,39 +1,41 @@
 return {
-	-- DO NOT INSTALL ts_ls !!!!!
-	-- also make sure to install npm install -g @vue/vue-language-server
+	-- DO NOT INSTALL ts_ls manually via Mason if listed here, Mason will handle it via dependencies
 	"neovim/nvim-lspconfig",
 	dependencies = {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
+		"b0o/schemastore.nvim", -- Needed for YAML schemas
 	},
 	config = function()
-		local lspconfig = require("lspconfig")
-		local mason_registry = require("mason-registry")
+		-- NOTE: We do NOT use require('lspconfig') anymore.
 
-		-- Set up Volar
-		-- Make sure you have these npm installed globally: 
-		-- 1) @vue/language-server
-		-- 2) typescript-language-server
-		-- 3) typescript
-		-- 
-		-- and tsdk config below set correctly to your global typescript/lib
-		lspconfig.volar.setup({
-			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+		-- 1. Volar
+		vim.lsp.config('vue_ls', {
+			filetypes = { "vue" },
 			init_options = {
+				typescript = {
+					tsdk = "/Users/chiyori/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib",
+				},
 				vue = {
 					hybridMode = false,
 				},
-				typescript = {
-					-- chiyori-T14
-					-- tsdk = "/home/chiyori/.nvm/versions/node/v22.15.1/lib/node_modules/typescript/lib"
-					-- chiyori-M4PRO
-					tsdk = "/Users/chiyori/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib"
-				}
 			},
 		})
+		vim.lsp.enable('vue_ls')
 
-		-- Set up Rust
-		lspconfig.rust_analyzer.setup({
+		-- 2. TS_LS
+		vim.lsp.config('ts_ls', {
+			filetypes = {
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+			},
+		})
+		vim.lsp.enable('ts_ls')
+
+		-- 3. Rust Analyzer
+		vim.lsp.config('rust_analyzer', {
 			settings = {
 				["rust-analyzer"] = {
 					cargo = { allFeatures = true },
@@ -41,12 +43,18 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable('rust_analyzer')
 
-		lspconfig.lua_ls.setup({})
+		-- 4. Lua LS
+		vim.lsp.config('lua_ls', {})
+		vim.lsp.enable('lua_ls')
 
-		lspconfig.jsonls.setup({})
-		
-		lspconfig.yamlls.setup({
+		-- 5. JSON LS
+		vim.lsp.config('jsonls', {})
+		vim.lsp.enable('jsonls')
+
+		-- 6. Yaml LS
+		vim.lsp.config('yamlls', {
 			settings = {
 				yaml = {
 					schemas = require("schemastore").yaml.schemas(),
@@ -54,6 +62,6 @@ return {
 				}
 			}
 		})
-
+		vim.lsp.enable('yamlls')
 	end,
 }
