@@ -84,6 +84,17 @@ examples:
 - :40,55sort : Sort line 40 to 55
 - c-v : Block selector, which is different than visual selector, could use to insert and delete multi-line
 
+### Registers  
+To access the registers panel, use  
+:reg
+
+To register a operation to a certain number
+" + {number} + {actions}
+ex) "7Y : Yank the entire line and register it to registry 7
+
+" + {number} + {actions}
+ex) "7p : Paste the 1st record in the register  
+
 ### Search/Filter:
 - / : Trigger filter -> Enter to confirm
 - n : Next result
@@ -96,6 +107,10 @@ examples:
 - <leader>sw : Telescope search word 
 - <leader>sd : Telescope search diagnostic
 - <leader>st : Telescope search TODOs etc
+
+If you searched a word (like using *)  
+and ciw to change the word.  
+You could just n to move to next word, and press . to perform the same change. 
 
 ### Indentation:
 - Tab : Right Indent
@@ -163,3 +178,13 @@ inline support:
 ### Telescope
 - <leader>sf : Find files 
 - <leader>sg : Find global
+
+### Macros
+For repetitive stuff use macros
+To start recording macro
+q + {anykey} : to register into that register
+
+To play the macro
+@ + {the key}
+{count} + @ + {the key}
+

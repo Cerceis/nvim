@@ -972,7 +972,8 @@ require('lazy').setup({
                     -- Loading theme list of themes in lua/custom/themes
                     -- { import = 'custom.themes.sakura' },
                     -- { import = 'custom.themes.menhera' },
-                    { import = 'custom.themes.everforest' },
+                    -- { import = 'custom.themes.everforest' },
+                    { import = 'custom.themes.catppuccin' },
                     --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
                     { import = 'custom.plugins' },
                     --
