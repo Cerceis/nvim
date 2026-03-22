@@ -12,6 +12,7 @@ return {
 		max_height = 8,
 		minimum_width = 30,
 		top_down = true,
+		background_colour = "#111113",
 		icons = {
 			ERROR = "ERR",
 			WARN  = "WRN",
