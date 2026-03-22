@@ -198,6 +198,16 @@ vim.api.nvim_create_autocmd("CursorHold", {
   end,
 })
 
+-- Notify on file save
+vim.api.nvim_create_autocmd("BufWritePost", {
+  desc = "Notify on file save",
+  group = vim.api.nvim_create_augroup("notify-on-save", { clear = true }),
+  callback = function()
+    local filename = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+    vim.notify(filename .. " saved", vim.log.levels.INFO)
+  end,
+})
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
