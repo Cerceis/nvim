@@ -345,6 +345,7 @@ function M.setup()
 	hl("NotifyINFOBody",    { fg = c.fg })
 	hl("NotifyDEBUGBody",   { fg = c.fg_dim })
 	hl("NotifyTRACEBody",   { fg = c.fg_dim })
+	hl("NotifyBackground",  { bg = c.bg1 })
 
 	-- ── Dropbar ──
 	hl("DropBarIconKindFile",     { fg = c.fg })
