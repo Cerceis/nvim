@@ -3,20 +3,20 @@ return{
 	dependencies = { 'nvim-tree/nvim-web-devicons' },
 	config = function()
 
-		-- YoRHa mode display — Japanese tactical labels
+		-- YoRHa mode display — tactical labels
 		local function cute_mode()
 			local mode = vim.fn.mode()
 			local icons = {
-				n = '── 通常 ──',
-				i = '── 入力 ──',
-				v = '── 選択 ──',
-				V = '── 行選 ──',
-				[''] = '── 矩選 ──',
-				c = '── 命令 ──',
-				R = '── 置換 ──',
-				t = '── 端末 ──',
+				n = '-- NORMAL --',
+				i = '-- INSERT --',
+				v = '-- VISUAL --',
+				V = '-- V-LINE --',
+				[''] = '-- V-BLOCK --',
+				c = '-- COMMAND --',
+				R = '-- REPLACE --',
+				t = '-- TERMINAL --',
 			}
-			return icons[mode] or ('── ' .. mode .. ' ──')
+			return icons[mode] or ('-- ' .. mode .. ' --')
 		end
 
 		-- A custom function that returns file path relative to project root
@@ -44,10 +44,10 @@ return{
 			local cmd = is_mac and "pmset -g batt" or "acpi -b 2>/dev/null"
 
 			local handle = io.popen(cmd)
-			if not handle then return "電力 N/A" end
+			if not handle then return "PWR N/A" end
 			local result = handle:read("*a")
 			handle:close()
-			if not result or result == "" then return "電力 N/A" end
+			if not result or result == "" then return "PWR N/A" end
 
 			local percentage, charging
 
@@ -59,7 +59,7 @@ return{
 				charging = result:match("Charging")
 			end
 
-			if not percentage then return "電力 N/A" end
+			if not percentage then return "PWR N/A" end
 
 			local total = 5
 			local filled = math.floor(percentage / 100 * total)
@@ -67,7 +67,7 @@ return{
 			local bar = "[" .. string.rep("=", filled) .. string.rep("-", empty) .. "]"
 			local status_icon = charging and "+" or "-"
 
-			return string.format("電力 %s%s%d%%%%", bar, status_icon, percentage)
+			return string.format("PWR %s%s%d%%%%", bar, status_icon, percentage)
 		end
 
 		-- NieR:Automata lualine theme
@@ -75,32 +75,32 @@ return{
 			normal = {
 				a = { fg = '#0a0a0c', bg = '#B4A882', gui = 'bold' },
 				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#978B6E', bg = 'NONE' },
+				c = { fg = '#A09880', bg = 'NONE' },
 			},
 			insert = {
-				a = { fg = '#0a0a0c', bg = '#7A8B69', gui = 'bold' },
+				a = { fg = '#0a0a0c', bg = '#50C878', gui = 'bold' },
 				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#978B6E', bg = 'NONE' },
+				c = { fg = '#A09880', bg = 'NONE' },
 			},
 			visual = {
-				a = { fg = '#0a0a0c', bg = '#8B7088', gui = 'bold' },
+				a = { fg = '#0a0a0c', bg = '#B868C0', gui = 'bold' },
 				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#978B6E', bg = 'NONE' },
+				c = { fg = '#A09880', bg = 'NONE' },
 			},
 			replace = {
-				a = { fg = '#0a0a0c', bg = '#8B4545', gui = 'bold' },
+				a = { fg = '#0a0a0c', bg = '#CC5555', gui = 'bold' },
 				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#978B6E', bg = 'NONE' },
+				c = { fg = '#A09880', bg = 'NONE' },
 			},
 			command = {
 				a = { fg = '#0a0a0c', bg = '#C8C2A2', gui = 'bold' },
 				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#978B6E', bg = 'NONE' },
+				c = { fg = '#A09880', bg = 'NONE' },
 			},
 			inactive = {
-				a = { fg = '#978B6E', bg = '#111113' },
-				b = { fg = '#978B6E', bg = '#111113' },
-				c = { fg = '#6B6352', bg = 'NONE' },
+				a = { fg = '#A09880', bg = '#111113' },
+				b = { fg = '#A09880', bg = '#111113' },
+				c = { fg = '#787060', bg = 'NONE' },
 			},
 		}
 
@@ -129,7 +129,7 @@ return{
 				lualine_b = {
 					{'branch', icon = ''},
 					{'diff', symbols = { added = '+', modified = '~', removed = '-' }},
-					{'diagnostics', symbols = { error = '異:', warn = '警:', info = '情:', hint = '助:' }},
+					{'diagnostics', symbols = { error = 'E:', warn = 'W:', info = 'I:', hint = 'H:' }},
 				},
 				lualine_c = {
 					relative_path_from_root

@@ -4,7 +4,29 @@ return {
 		{ "mason-org/mason.nvim", opts = {} },
 		"mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		{ "j-hui/fidget.nvim", opts = {} },
+		{
+			"j-hui/fidget.nvim",
+			opts = {
+				progress = {
+					display = {
+						render_limit = 5,
+						done_ttl = 2,
+						done_icon = "# Done",
+						done_style = "NoiceLspProgressTitle",
+						progress_icon = { pattern = "dots_pulse", period = 1 },
+						icon_style = "NoiceLspProgressSpinner",
+						group_style = "NoiceLspProgressClient",
+					},
+				},
+				notification = {
+					window = {
+						winblend = 0,
+						border = "rounded",
+						relative = "editor",
+					},
+				},
+			},
+		},
 		"saghen/blink.cmp",
 		"b0o/schemastore.nvim",
 	},
@@ -69,7 +91,7 @@ return {
 		vim.diagnostic.config({
 			severity_sort = true,
 			float = { border = "rounded", source = "if_many" },
-			underline = { severity = vim.diagnostic.severity.ERROR },
+			underline = true,
 			signs = vim.g.have_nerd_font and {
 				text = {
 					[vim.diagnostic.severity.ERROR] = "󰅚 ",
