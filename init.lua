@@ -725,7 +725,8 @@ require('lazy').setup({
                     -- { import = 'custom.themes.menhera' },
                     -- { import = 'custom.themes.everforest' },
                     -- { import = 'custom.themes.catppuccin' },
-                    { import = 'custom.themes.nier-automata' },
+                    -- { import = 'custom.themes.nier-automata' },
+                    { import = 'custom.themes.rose-automata' },
                     --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
                     { import = 'custom.plugins' },
                     --

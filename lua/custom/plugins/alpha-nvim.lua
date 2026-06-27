@@ -1,4 +1,4 @@
--- YoRHa Terminal -- Dashboard
+-- ROSE -- Dashboard with spinning 3D heart
 return {
 	'goolord/alpha-nvim',
 	dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -7,28 +7,12 @@ return {
 	config = function()
 		local alpha = require("alpha")
 		local dashboard = require("alpha.themes.dashboard")
+		local heart = require("custom.themes.heart3d")
 		local memo_path = vim.fn.stdpath("config") .. "/lua/memo/memo"
 
-		-- YoRHa Tactical Boot Sequence
-		local yorha_art = {
-			"",
-			"",
-			"   +===============================================================+",
-			"   |                                                               |",
-			"   |     ███╗   ██╗ ██╗ ███████╗ ██████╗                           |",
-			"   |     ████╗  ██║ ██║ ██╔════╝ ██╔══██╗    ┌──────────────┐      |",
-			"   |     ██╔██╗ ██║ ██║ █████╗   ██████╔╝    | YoRHa Tac-OS |      |",
-			"   |     ██║╚██╗██║ ██║ ██╔══╝   ██╔══██╗    | Unit: 2B     |      |",
-			"   |     ██║ ╚████║ ██║ ███████╗ ██║  ██║    └──────────────┘      |",
-			"   |     ╚═╝  ╚═══╝ ╚═╝ ╚══════╝ ╚═╝  ╚═╝    a]utomata          |",
-			"   |                                                               |",
-			"   +===============================================================+",
-			"",
-			"    > System boot complete                     ver: 1.25a",
-			"    > Tactical log link ...................... status: OPERATIONAL",
-			"    > Black box ............................ status: NOMINAL",
-			"",
-		}
+		-- Precompute spin frames once (cheap to cycle thereafter)
+		local frames = heart.build(48)
+		local frame_idx = 1
 
 		local function read_memo(path)
 			local lines = {}
@@ -48,10 +32,7 @@ return {
 			dashboard.section.memo = {
 				type = "text",
 				val = read_memo(memo_path),
-				opts = {
-					position = "center",
-					hl = "Comment"
-				},
+				opts = { position = "center", hl = "Comment" },
 			}
 		end
 
@@ -69,31 +50,34 @@ return {
 			},
 			opts = { spacing = 1 },
 		}
-
-		-- Set button highlight
 		for _, button in ipairs(dashboard.section.buttons.val) do
 			button.opts.hl = "AlphaButtons"
 			button.opts.hl_shortcut = "AlphaShortcut"
 		end
 
+		-- Subtitle under the heart
+		dashboard.section.subtitle = {
+			type = "text",
+			val = { "♡ ｡ﾟ･  R O S E  ･ﾟ｡ ♡" },
+			opts = { position = "center", hl = "BabyBlue" },
+		}
+
 		local function get_dashboard_config()
-			dashboard.section.header.val = yorha_art
+			dashboard.section.header.val = frames[frame_idx]
 			dashboard.section.header.opts.position = "center"
-			dashboard.section.header.opts.hl = "BabyBlue"
+			dashboard.section.header.opts.hl = "AlphaHeart"
 
 			dashboard.section.footer = {
 				type = "text",
 				val = function()
 					local stats = require("lazy").stats()
 					local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-					local plugins_loaded = stats.loaded
-					local plugins_total = stats.count
 					return {
 						"",
 						"===============================================================",
 						string.format(
 							"  * Plugins: %d/%d loaded   * Startup: %sms   * %s",
-							plugins_loaded, plugins_total, ms, os.date("%Y.%m.%d %H:%M")
+							stats.loaded, stats.count, ms, os.date("%Y.%m.%d %H:%M")
 						),
 						"===============================================================",
 					}
@@ -104,15 +88,13 @@ return {
 			dashboard.section.section_border = {
 				type = "text",
 				val = "------------- Tactical Memo -------------",
-				opts = {
-					position = "center",
-					hl = "PastelPink"
-				}
+				opts = { position = "center", hl = "PastelPink" },
 			}
 
 			dashboard.config.layout = {
 				{ type = "padding", val = 1 },
 				dashboard.section.header,
+				dashboard.section.subtitle,
 				{ type = "padding", val = 1 },
 				dashboard.section.buttons,
 				{ type = "padding", val = 1 },
@@ -130,11 +112,24 @@ return {
 		update_memo()
 		alpha.setup(get_dashboard_config())
 
+		-- ── Spin animation ──
+		-- Cycle frames on a timer; only act while the alpha buffer is shown,
+		-- and preserve the cursor so navigation isn't disturbed.
+		local timer = vim.loop.new_timer()
+		timer:start(150, 110, vim.schedule_wrap(function()
+			if vim.bo.filetype ~= "alpha" then return end
+			frame_idx = (frame_idx % #frames) + 1
+			dashboard.section.header.val = frames[frame_idx]
+			local win = vim.api.nvim_get_current_win()
+			local ok, cur = pcall(vim.api.nvim_win_get_cursor, win)
+			pcall(alpha.redraw)
+			if ok then pcall(vim.api.nvim_win_set_cursor, win, cur) end
+		end))
+
 		vim.api.nvim_create_user_command("AlphaReloadMemo", function()
 			update_memo()
 			alpha.setup(get_dashboard_config())
 			vim.cmd("Alpha")
 		end, {})
-
 	end,
 }

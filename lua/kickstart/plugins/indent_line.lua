@@ -6,13 +6,15 @@ return {
 		config = function()
 			require("ibl").setup {
 				indent = {
-					highlight = "PastelPink",
-					char = "♡",
-					tab_char = "♡",
+					highlight = "IblIndent",   -- faint solid hearts (set in rose.lua)
+					char = "♥",
+					tab_char = "♥",
 				},
 				scope = {
-					highlight = "Lilac"
-				}
+					highlight = "AlphaHeart",  -- current scope glows bright rose
+					show_start = false,
+					show_end = false,
+				},
 			}
 		end,
 	},

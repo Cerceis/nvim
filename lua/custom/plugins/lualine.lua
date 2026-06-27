@@ -3,20 +3,43 @@ return{
 	dependencies = { 'nvim-tree/nvim-web-devicons' },
 	config = function()
 
-		-- YoRHa mode display — tactical labels
+		-- Mode display — clean labels
 		local function cute_mode()
 			local mode = vim.fn.mode()
 			local icons = {
-				n = '-- NORMAL --',
-				i = '-- INSERT --',
-				v = '-- VISUAL --',
-				V = '-- V-LINE --',
-				[''] = '-- V-BLOCK --',
-				c = '-- COMMAND --',
-				R = '-- REPLACE --',
-				t = '-- TERMINAL --',
+				n = 'NORMAL',
+				i = 'INSERT',
+				v = 'VISUAL',
+				V = 'V·LINE',
+				[''] = 'V·BLOCK',
+				c = 'COMMAND',
+				R = 'REPLACE',
+				t = 'TERMINAL',
 			}
-			return icons[mode] or ('-- ' .. mode .. ' --')
+			return '  ' .. (icons[mode] or mode:upper()) .. '  '
+		end
+
+		-- ♥ animated beating-heart sigil (pulses via the statusline refresh)
+		local heart_seq = { '♥', '♥', '❤', '♥', '♡', '♥', '♥', '♥' }
+		local function heart_beat()
+			local i = (math.floor(vim.loop.now() / 150) % #heart_seq) + 1
+			return heart_seq[i]
+		end
+
+		-- mode-aware kaomoji mascot
+		local function mascot()
+			local m = vim.fn.mode()
+			local faces = {
+				n = '(･ω･)',
+				i = '(๑˃ᴗ˂)ﻭ',
+				v = '(◕▿◕)',
+				V = '(◕▿◕)',
+				[''] = '(◣_◢)',
+				c = '(・◇・)?',
+				R = '(>﹏<)',
+				t = '(￣▽￣)',
+			}
+			return faces[m] or '(・_・)'
 		end
 
 		-- A custom function that returns file path relative to project root
@@ -33,9 +56,9 @@ return{
 			return relpath ~= '' and relpath or '[no file]'
 		end
 
-		-- YoRHa tactical time
+		-- tactical time
 		local function dynamic_time()
-			return os.date("%H:%M")
+			return ' ' .. os.date("%H:%M")
 		end
 
 
@@ -70,44 +93,44 @@ return{
 			return string.format("PWR %s%s%d%%%%", bar, status_icon, percentage)
 		end
 
-		-- NieR:Automata lualine theme
-		local nier_theme = {
+		-- ROSE lualine theme (desaturated pastel pink)
+		local rose_theme = {
 			normal = {
-				a = { fg = '#0a0a0c', bg = '#B4A882', gui = 'bold' },
-				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#A09880', bg = 'NONE' },
+				a = { fg = '#0a0a0c', bg = '#CBA1B2', gui = 'bold' },
+				b = { fg = '#E2D6DB', bg = '#191418' },
+				c = { fg = '#A08892', bg = 'NONE' },
 			},
 			insert = {
-				a = { fg = '#0a0a0c', bg = '#50C878', gui = 'bold' },
-				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#A09880', bg = 'NONE' },
+				a = { fg = '#0a0a0c', bg = '#7FB394', gui = 'bold' },
+				b = { fg = '#E2D6DB', bg = '#191418' },
+				c = { fg = '#A08892', bg = 'NONE' },
 			},
 			visual = {
-				a = { fg = '#0a0a0c', bg = '#B868C0', gui = 'bold' },
-				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#A09880', bg = 'NONE' },
+				a = { fg = '#0a0a0c', bg = '#C18FB0', gui = 'bold' },
+				b = { fg = '#E2D6DB', bg = '#191418' },
+				c = { fg = '#A08892', bg = 'NONE' },
 			},
 			replace = {
-				a = { fg = '#0a0a0c', bg = '#CC5555', gui = 'bold' },
-				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#A09880', bg = 'NONE' },
+				a = { fg = '#0a0a0c', bg = '#C76B7A', gui = 'bold' },
+				b = { fg = '#E2D6DB', bg = '#191418' },
+				c = { fg = '#A08892', bg = 'NONE' },
 			},
 			command = {
-				a = { fg = '#0a0a0c', bg = '#C8C2A2', gui = 'bold' },
-				b = { fg = '#DAD4BB', bg = '#1a1a1e' },
-				c = { fg = '#A09880', bg = 'NONE' },
+				a = { fg = '#0a0a0c', bg = '#D8CCD1', gui = 'bold' },
+				b = { fg = '#E2D6DB', bg = '#191418' },
+				c = { fg = '#A08892', bg = 'NONE' },
 			},
 			inactive = {
-				a = { fg = '#A09880', bg = '#111113' },
-				b = { fg = '#A09880', bg = '#111113' },
-				c = { fg = '#787060', bg = 'NONE' },
+				a = { fg = '#A08892', bg = '#141015' },
+				b = { fg = '#A08892', bg = '#141015' },
+				c = { fg = '#6E5A63', bg = 'NONE' },
 			},
 		}
 
 		require('lualine').setup {
 			options = {
 				icons_enabled = true,
-				theme = nier_theme,
+				theme = rose_theme,
 				component_separators = { left = '│', right = '│'},
 				section_separators = { left = '', right = ''},
 				disabled_filetypes = {
@@ -119,22 +142,23 @@ return{
 				always_show_tabline = true,
 				globalstatus = false,
 				refresh = {
-					statusline = 100,
-					tabline = 100,
-					winbar = 100,
+					statusline = 150,
+					tabline = 150,
+					winbar = 150,
 				}
 			},
 			sections = {
-				lualine_a = { cute_mode },
+				lualine_a = { heart_beat, cute_mode },
 				lualine_b = {
 					{'branch', icon = ''},
 					{'diff', symbols = { added = '+', modified = '~', removed = '-' }},
-					{'diagnostics', symbols = { error = 'E:', warn = 'W:', info = 'I:', hint = 'H:' }},
+					{'diagnostics', symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }},
 				},
 				lualine_c = {
-					relative_path_from_root
+					{ relative_path_from_root, icon = '' }
 				},
 				lualine_x = {
+					mascot,
 					battery_status,
 					dynamic_time,
 					'encoding',
